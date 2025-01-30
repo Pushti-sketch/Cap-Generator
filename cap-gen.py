@@ -48,7 +48,7 @@ if uploaded_image is not None:
     if generate_button:
         with st.spinner(f"{random.choice(loading_words)}..."):
             caption = generate_caption_with_gemini(extracted_text)
-            st.write("Final Meal :")
+            st.write("Caption Output :")
             st.write(caption)
 footer="""<style>
 .footer {
