@@ -15,7 +15,7 @@ def extract_text_from_image(image):
 # Function to generate caption using Gemini API (via Google SDK)
 def generate_caption_with_gemini(extracted_text):
     # Set up the API key and model using google.generativeai
-    genai.configure(api_key="YOUR_API_KEY")  # Replace with your actual API key
+    genai.configure(api_key=st.secrets["google_api_key"])  # Replace with your actual API key
     
     model = genai.GenerativeModel("gemini-1.5-flash")
     
