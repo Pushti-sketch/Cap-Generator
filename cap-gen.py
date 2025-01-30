@@ -30,8 +30,8 @@ def generate_caption_with_gemini(extracted_text):
 
 loading_words = ["Cooking", "Cooking hard", "Whipping up something cool", "Crafting the magic", "Making it perfect", "Preparing your masterpiece"]
 
-st.title("CSE Caption Generator")
-st.markdown("Upload an image to extract text and generate an attractive caption.")
+st.title("CSE Caption Generator 🖼️")
+st.markdown("Upload an image to generate an attractive caption.")
 
 uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
