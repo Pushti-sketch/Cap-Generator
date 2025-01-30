@@ -13,10 +13,10 @@ def extract_text_from_image(image):
     extracted_text = ' '.join([text[1] for text in result])
     return extracted_text
 
-def clean_text_for_caption(extracted_text):
-    cleaned_text = re.sub(r'(@[A-Za-z0-9_]+)', '', extracted_text)
-    cleaned_text = re.sub(r'#\w+', '', cleaned_text)
-    return cleaned_text.strip()
+# def clean_text_for_caption(extracted_text):
+#     cleaned_text = re.sub(r'(@[A-Za-z0-9_]+)', '', extracted_text)
+#     cleaned_text = re.sub(r'#\w+', '', cleaned_text)
+#     return cleaned_text.strip()
 
 def generate_caption_with_gemini(extracted_text):
     genai.configure(api_key=api_key_1)
@@ -41,13 +41,13 @@ if uploaded_image is not None:
 
     with st.spinner(f"{random.choice(loading_words)}..."):
         extracted_text = extract_text_from_image(image)
-        cleaned_text = clean_text_for_caption(extracted_text)
+        # cleaned_text = clean_text_for_caption(extracted_text)
 
     generate_button = st.button("Generate Caption")
 
     if generate_button:
         with st.spinner(f"{random.choice(loading_words)}..."):
-            caption = generate_caption_with_gemini(cleaned_text)
+            caption = generate_caption_with_gemini(extracted_text)
             st.write("Final Meal :")
             st.write(caption)
 footer="""<style>
