@@ -5,7 +5,7 @@ from PIL import Image
 
 # Initialize the EasyOCR reader (English language)
 reader = easyocr.Reader(['en'])
-#api_key_1 = st.secrets["google_api_key"]
+api_key_1 = st.secrets["google_api_key"]
 
 # Function to extract text from an image using EasyOCR
 def extract_text_from_image(image):
@@ -21,7 +21,7 @@ def generate_caption_with_gemini(extracted_text):
     model = genai.GenerativeModel("gemini-1.5-flash")
     
     # Prepare the prompt
-    prompt = f"{extracted_text} This is for Charusat University, Create an attractive and detailed caption from the following details provided also use emojis. also in output just give me the clear caption and dont write anything else"
+    prompt = f"{extracted_text} This is for Charusat University, Create an attractive and detailed caption from the following details provided also use emojis. also in output just give me a single detailed and attractive clear caption and dont write anything else"
     
     # Generate content with the model
     response = model.generate_content(prompt)
