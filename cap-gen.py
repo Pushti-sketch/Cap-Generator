@@ -2,54 +2,51 @@ import easyocr
 import google.generativeai as genai
 import streamlit as st
 from PIL import Image
+import random
+import re
 
-# Initialize the EasyOCR reader (English language)
 reader = easyocr.Reader(['en'])
 api_key_1 = st.secrets["google_api_key"]
 
-# Function to extract text from an image using EasyOCR
 def extract_text_from_image(image):
     result = reader.readtext(image)
     extracted_text = ' '.join([text[1] for text in result])
     return extracted_text
 
-# Function to generate caption using Gemini API (via Google SDK)
+def clean_text_for_caption(extracted_text):
+    cleaned_text = re.sub(r'(@[A-Za-z0-9_]+)', '', extracted_text)
+    cleaned_text = re.sub(r'#\w+', '', cleaned_text)
+    return cleaned_text.strip()
+
 def generate_caption_with_gemini(extracted_text):
-    # Set up the API key and model using google.generativeai
-    genai.configure(api_key=api_key_1)  # Replace with your actual API key
-    
+    genai.configure(api_key=api_key_1)
     model = genai.GenerativeModel("gemini-1.5-flash")
     
-    # Prepare the prompt
     prompt = f"{extracted_text} This is for Charusat University, Create an attractive and detailed caption from the following details provided also use emojis. also in output just give me a single detailed and attractive clear caption and dont write anything else"
     
-    # Generate content with the model
     response = model.generate_content(prompt)
     
     return response.text
 
-# Streamlit UI for file upload and display
+loading_words = ["Cooking", "Cooking hard", "Whipping up something cool", "Crafting the magic", "Making it perfect", "Preparing your masterpiece"]
+
 st.title("CSE Caption Generator")
 st.markdown("Upload an image to extract text and generate an attractive caption.")
 
-# Image upload by the user
 uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_image is not None:
-    # Display uploaded image
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    # Extract text from the image
-    with st.spinner("Loading..."):
+    with st.spinner(f"{random.choice(loading_words)}..."):
         extracted_text = extract_text_from_image(image)
-        
+        cleaned_text = clean_text_for_caption(extracted_text)
 
-    # Button to generate the caption using Gemini API
     generate_button = st.button("Generate Caption")
 
     if generate_button:
-        with st.spinner("Cooking Hard..."):
-            caption = generate_caption_with_gemini(extracted_text)
+        with st.spinner(f"{random.choice(loading_words)}..."):
+            caption = generate_caption_with_gemini(cleaned_text)
             st.write("Final Meal :")
             st.write(caption)
